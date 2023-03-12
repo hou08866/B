@@ -1,13 +1,13 @@
 pipeline {
   agent any
   stages {
-    stage('') {
+    stage('error') {
       steps {
         script {
           node('testhan') {
             stage('Clone') {
               echo "1.Clone Stage"
-              git url: "https://github.com/luckylucky421/jenkins-sample.git"
+              git url: "https://gitlab.com/hou08866/jenkins-sample.git"
               script {
                 build_tag = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
               }
@@ -18,13 +18,13 @@ pipeline {
             }
             stage('Build') {
               echo "3.Build Docker Image Stage"
-              sh "docker build -t xianchao/jenkins-demo:${build_tag} ."
+              sh "docker build -t hou08866/jenkins-demo:${build_tag} ."
             }
             stage('Push') {
               echo "4.Push Docker Image Stage"
               withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh "docker login -u ${dockerHubUser} -p ${dockerHubPassword}"
-                sh "docker push xianchao/jenkins-demo:${build_tag}"
+                sh "docker push hou08866/jenkins-demo:${build_tag}"
               }
             }
             stage('Deploy to dev') {
