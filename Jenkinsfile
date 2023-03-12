@@ -7,7 +7,7 @@ pipeline {
           node('testhan') {
             stage('Clone') {
               echo "1.Clone Stage"
-              git url: "https://gitlab.com/hou08866/jenkins-sample.git"
+              git url: "https://github.com/hou08866/jenkins-sample.git"
               script {
                 build_tag = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
               }
